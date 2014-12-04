@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+    <head> 
+        <title>Mobile Parallax Demo</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />      
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+        <!--[if gte IE 9]><style type="text/css">.gradient { filter: none; }</style><![endif]-->
+
+    </head>
+    <body>
+        <div id="header" class="container">
+            <div class="left"><h2>Menu1</h2></div>
+            <div class="center"><h2>Menu2</h2></div>
+            <div class="right"><h2>Menu3</h2></div>
+            <div class="clear"></div></div>
+        <div id="image" data-stellar-ratio="0.5"></div>
+        <div id="sticker" class="container">
+            <div class="left"><h2>Menu4</h2></div>
+            <div class="center"><h2>Menu5</h2></div>
+            <div class="right"><h2>Menu6</h2></div>
+            <div class="clear"></div>
+        </div>
+        <div id="content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. </div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="stellar.js"></script>
+        <script src=""></script>
+        <script>
+            function hold_menu() {
+                dt = $(document).scrollTop();
+                menu = $('#sticker');
+                image = $('#image');
+                if (dt >= (image.height() - ($('#header').height() * 2))) {
+                    menu.css('position', 'fixed');
+                    menu.css('top', '50px');
+                } else {
+                    if (menu.css('position') == 'fixed') {
+
+                        menu.css('position', 'absolute');
+                        menu.css('top', '250px');
+                    }
+                }
+            }
+
+            function fader() {
+                var header = $('#header'),
+                        image = $('#image'),
+                        menu = $('#sticker'),
+                        dt = $(document).scrollTop();
+
+                header.each(function () {
+                    opacity = (dt / image.height());
+                    if (opacity <= 0.8) {
+                        header.css('background-color', 'rgba(0, 100, 0, ' + opacity + ')');
+                    }
+                });
+
+                menu.each(function () {
+                    opacity = (dt / (image.height() - 100)) * 0.2 + 0.8;
+                    if (((dt / (image.height() - 100)) * 0.2 + 0.8) > 1)
+                        opacity = 1;
+                    else if (((dt / image.height()) * 0.2 + 0.8) < 0.8)
+                        opacity = 0.8;
+                    rgba = 'rgba(0, 100, 0, ' + opacity + ')';
+                    menu.css('background-color', rgba);
+                });
+            }
+            $(document).bind('scroll', fader);
+
+            $(document).bind('scroll', hold_menu);
+
+            $(function () {
+                $.stellar({
+                    horizontalScrolling: false,
+                    verticalOffset: 150
+                });
+            });
+
+        </script>
+
+    </body>
+</html>
